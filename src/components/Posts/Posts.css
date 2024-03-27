@@ -1,0 +1,33 @@
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.m-left-3 {
+    margin-left: 2rem;
+}
+
+.w-127 {
+    width: 127px;
+}
+
+.h-100 {
+    height: 100px;
+}
+
+.blk-border {
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.bg-wheat {
+    background-color: wheat;
+}
+
+.m-top-2 {
+    margin-top: 2rem;
+}
