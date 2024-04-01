@@ -9,23 +9,44 @@ export default function Header() {
   const [desc, setDesc] = React.useState("");
 
   const [postData, setPostData] = React.useState([]);
+  const [errors, setErrors] = React.useState([]);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
-  const handleSubmit = () => {
-    if (personName === "" || desc === "") {
-      alert("Please fill all the fields");
-      return;
+  const validateForm = () => {
+    let err = {};
+
+    if (!personName) {
+      err['personName'] = "Person name cannot be empty";
     }
-    const newPost = {
-      'author': personName,
-      'body': desc
-    };
-    setPostData([...postData, newPost]);
-    setPersonName("");
-    setDesc("");
-    handleClose();
+
+    if (!desc) {
+      err['desc'] = "Description cannot be empty";
+    }
+
+    setErrors(err);
+
+    return Object.keys(err).length === 0;
+  }
+
+  const handleSubmit = () => {
+
+    // if (personName === "" || desc === "") {
+    //   alert("Please fill all the fields");
+    //   return;
+    // }
+
+    if (validateForm()) {
+      const newPost = {
+        'author': personName,
+        'body': desc
+      };
+      setPostData([...postData, newPost]);
+      setPersonName("");
+      setDesc("");
+      handleClose();
+    }
   }
 
   return (
@@ -55,6 +76,7 @@ export default function Header() {
             </div>
             <div className="form-group">
             <input type="text" className="form-control fix-input-width" value={personName} onChange={(e) => setPersonName(e.target.value)} />
+            {errors.personName && <p className="text-red">{errors.personName}</p>}
             </div>
 
             <div className="form-group m-top-10">
@@ -63,6 +85,7 @@ export default function Header() {
 
             <div className="form-group">
             <textarea type="text" className="form-control fix-input-width" value={desc} onChange={(e) => setDesc(e.target.value)} />
+            {errors.desc && <p className="text-red">{errors.desc}</p>}
             </div>
           
           </form>
