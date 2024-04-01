@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "./Header.css";
 import Posts from "../Posts/Posts";
@@ -46,8 +46,32 @@ export default function Header() {
       setPersonName("");
       setDesc("");
       handleClose();
+
+      fetch('http://localhost:8080/posts', {
+        method: 'POST',
+        body: JSON.stringify(newPost),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(async (resp) => {
+      const data = await resp.json();
+      
+      if (Array.isArray(data['post'])) {
+        setPostData((existingPosts) => [...existingPosts, data['post']]);
+      }
+    });
     }
   }
+
+  useEffect(() => {
+    fetch('http://localhost:8080/posts').then(async (resp) => {
+      const data = await resp.json();
+      
+      if (Array.isArray(data['posts'])) {
+        setPostData(data['posts']);
+      }
+    });
+  }, []);
 
   return (
     <>
